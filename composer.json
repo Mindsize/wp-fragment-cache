@@ -1,0 +1,34 @@
+{
+  "name": "mindsize/wp-fragment-cache",
+  "description": "Abstraction of fragment caching methods for developers to use and integrate into WordPress plugins and themes.",
+  "homepage": "http://github.com/Mindsize/wp-fragment-cache",
+  "keywords": [
+    "wordpress",
+    "cache"
+  ],
+  "authors": [
+    {
+      "name": "Mindsize",
+      "email": "info@mindsize.me",
+      "homepage": "http://mindsize.me",
+      "role": "Developer"
+    },
+    {
+      "name": "Patrick Garman",
+      "email": "patrick@mindsize.me",
+      "homepage": "http://mindsize.me",
+      "role": "Developer"
+    }
+  ],
+  "license": "GPL-2.0",
+  "version": "1.0.0",
+  "autoload": {
+    "classmap": [
+      "wp-fragment-cache.php",
+      "wp-html-fragment-cache.php"
+    ]
+  },
+  "require": {
+    "composer/installers": "^1"
+  }
+}
