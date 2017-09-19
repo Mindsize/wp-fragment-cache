@@ -84,7 +84,7 @@ abstract class WP_Fragment_Cache {
 	 * Debug comment string for the cached data
 	 */
 	protected function get_cache_debug_comment( $start, $end ) {
-		return sprintf( __( 'Took %d seconds to store cached content.', 'ms-wp-fragment-cache' ), $end - $start );
+		return sprintf( __( 'Took %f seconds to store cached content.', 'ms-wp-fragment-cache' ), $end - $start );
 	}
 
 	/**
@@ -131,9 +131,9 @@ abstract class WP_Fragment_Cache {
 			/**
 			 * Call the callback, pass the conditions to the callback as well.
 			 */
-			$start = time();
+			$start = microtime( true );
 			call_user_func_array( $callback, $conditions );
-			$end = time();
+			$end = microtime( true );
 
 			/**
 			 * Output the closing HTML comment.
