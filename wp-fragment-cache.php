@@ -153,7 +153,7 @@ abstract class WP_Fragment_Cache {
 		}
 
 		if( true === $also_output ) {
-			printf( $contents );
+			print( $contents );
 		}
 
 		return $contents;
