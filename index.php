@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Mindsize - WP Fragment Cache
  * Description: Not intended to be used as a normal plugin, requires developer integration. Abstraction of fragment caching methods for developers to use and integration into WordPress plugins and themes.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Mindsize
  * Author URI: http://mindsize.me/
  *
@@ -20,5 +20,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'wp-fragment-cache.php';
-require_once 'wp-html-fragment-cache.php';
+/**
+ * Load the autoload file distributed with the plugin version of this library.
+ * For sites not driven by composer.
+ */
+if( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php' ) ) {
+	require( plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php' );
+}

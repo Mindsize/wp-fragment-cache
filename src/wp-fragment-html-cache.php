@@ -23,23 +23,23 @@ if( ! defined( 'ABSPATH' ) ) {
 /**
  * If the class already exists, no need to redeclare it.
  */
-if( class_exists( 'WP_HTML_Fragment_Cache' ) ) {
+if( class_exists( 'WP_Fragment_HTML_Cache' ) ) {
 	return;
 }
 
 /**
- * Class WP_HTML_Fragment_Cache
+ * Class WP_Fragment_HTML_Cache
  *
  * @since 1.0.0
  */
-abstract class WP_HTML_Fragment_Cache extends WP_Fragment_Cache {
+abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 
 	/**
 	 * The slug of the fragment cache prefixes all hooks and is sanitized to create the default cache directory.
 	 *
 	 * @var string
 	 */
-	protected $slug = 'wp-html-fragment-cache';
+	protected $slug = 'wp-fragment-html-cache';
 
 	/**
 	 * Get cached data from HTML file and return as a string.

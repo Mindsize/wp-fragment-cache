@@ -18,17 +18,32 @@
       "email": "patrick@mindsize.me",
       "homepage": "http://mindsize.me",
       "role": "Developer"
+    },
+    {
+      "name": "Gabor Javorszky",
+      "email": "gabor@mindsize.me",
+      "homepage": "http://mindsize.me",
+      "role": "Developer"
     }
   ],
   "license": "GPL-2.0",
-  "version": "1.0.0",
   "autoload": {
     "classmap": [
-      "wp-fragment-cache.php",
-      "wp-html-fragment-cache.php"
+      "src"
     ]
   },
   "require": {
-    "composer/installers": "^1"
+    "xrstf/composer-php52": "^1.0"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "xrstf\\Composer52\\Generator::onPostInstallCmd"
+    ],
+    "post-update-cmd": [
+      "xrstf\\Composer52\\Generator::onPostInstallCmd"
+    ],
+    "post-autoload-dump": [
+      "xrstf\\Composer52\\Generator::onPostInstallCmd"
+    ]
   }
 }
