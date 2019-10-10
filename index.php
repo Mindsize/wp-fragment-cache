@@ -27,3 +27,6 @@
 if( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php' ) ) {
 	require( plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php' );
 }
+require_once( 'src/wp-fragment-cache.php' );
+require_once( 'src/wp-fragment-html-cache.php' );
+require_once( 'src/wp-fragment-object-cache.php' );
