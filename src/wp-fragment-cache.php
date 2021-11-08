@@ -6,24 +6,25 @@
  * that is bundled with this package in the file license.txt.
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-2.0.html
+ *
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to info@mindsize.me so we can send you a copy immediately.
  *
  * @package   Mindsize/WP_Fragment_Cache
  * @author    Mindsize
- * @copyright Copyright (c) 2017, Mindsize, LLC.
+ * @copyright Copyright (c) 2017-2021, Mindsize, LLC.
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  */
 
-if( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
  * If the class already exists, no need to redeclare it.
  */
-if( class_exists( 'WP_Fragment_Cache' ) ) {
+if ( class_exists( 'WP_Fragment_Cache' ) ) {
 	return;
 }
 
@@ -44,7 +45,9 @@ abstract class WP_Fragment_Cache {
 	/**
 	 * Abstracted method for classes to override and store their data.
 	 *
-	 * @param $data
+	 * @param $output
+	 *
+	 * @param $conditions
 	 *
 	 * @return bool
 	 */
@@ -53,18 +56,14 @@ abstract class WP_Fragment_Cache {
 	/**
 	 * Abstracted method for classes to override and get their data.
 	 *
-	 * @param $data
+	 * @param array $conditions
 	 *
 	 * @return bool
 	 */
 	abstract protected function get_cache_data( $conditions );
 
 	/**
-	 * Abstracted method for classes to override and clear their cache
-	 *
-	 * @param $data
-	 *
-	 * @return bool
+	 * Abstracted method for classes to override and clear their cache.
 	 */
 	abstract public function clear_cache();
 
@@ -72,52 +71,75 @@ abstract class WP_Fragment_Cache {
 	 * Opening comment before cached content is output.
 	 * Is stored within the cached content and is not generated on every load.
 	 */
-	protected function get_cache_start_comment() { return null; }
+	protected function get_cache_start_comment() {
+		return null;
+	}
 
 	/**
 	 * Closing comment before cached content is output.
 	 * Is stored within the cached content and is not generated on every load.
 	 */
-	protected function get_cache_close_comment() { return null; }
+	protected function get_cache_close_comment() {
+		return null;
+	}
 
 	/**
-	 * Debug comment string for the cached data
+	 * Debug comment string for the cached data.
+	 *
+	 * @param int $start The start time in UNIX format.
+	 *
+	 * @param int $end The end time in UNIX format.
+	 *
+	 * @return string
 	 */
 	protected function get_cache_debug_comment( $start, $end ) {
 		return sprintf( __( 'Took %f seconds to store cached content.', 'ms-wp-fragment-cache' ), $end - $start );
 	}
 
 	/**
-	 * Output a HTML comment, if the comment is empty, no HTML is output.
+	 * Output a HTML comment, if the comment is empty, no output is rendered.
+	 *
+	 * @todo Use wp_kses_allowed_html
+	 *
+	 * @param string $comment The code Comment.
 	 */
 	protected function output_comment( $comment ) {
-		if( ! empty( $comment ) ) {
-			printf( '<!-- %s -->', $comment );
+		if ( empty( $comment ) || ! is_string( $comment ) ) {
+			return;
 		}
+
+		// Escape as best we can.
+		printf( '<!-- %s -->', esc_html( $comment ) );
 	}
 
 	/**
 	 * Actually cache the output of the passed callback, optionally outputting the result also. Allows for passing
 	 * arguments for conditional caching.
 	 *
-	 * @param       $callback
-	 * @param bool  $also_output
-	 * @param array $args
+	 * @todo Should this both render and return $contents?
 	 *
-	 * @return bool
+	 * @todo Rendering the content must have some kind of escaping.
+	 *       Dangerous input will be presented to multiple users as the cached content is viewed.
+	 *
+	 * @param string|array $callback    Callable callback function/method.
+	 * @param array        $conditions
+	 * @param bool         $render      Optional. Render the cached HTML.  Defaults to true.
+	 * @param bool         $refresh     Optional. Refresh the cache.  Defaults to false.
+	 *
+	 * @return mixed The cached content, else false.
 	 */
-	public function do( $callback, $conditions = array(), $also_output = true, $refresh = false ) {
+	public function do( $callback, $conditions = array(), $render = true, $refresh = false ) {
 		/**
 		 * If the callback passed is not callable, just bail here and false and a notice.
 		 */
-		if( ! is_callable( $callback ) ) {
-			trigger_error( __( 'Unable to call required callback function.', 'ms-wp-fragment-cache' ) );
+		if ( ! is_callable( $callback ) ) {
+			trigger_error( esc_html_e( 'Unable to call required callback function.', 'ms-wp-fragment-cache' ) );
 
 			return false;
 		}
 
 		$contents = $this->get_cache_data( $conditions );
-		if( true === $refresh || false === $contents ) {
+		if ( true === $refresh || false === $contents ) {
 			/**
 			 * Start saving all output into a buffer for capture later.
 			 */
@@ -143,7 +165,7 @@ abstract class WP_Fragment_Cache {
 			/**
 			 * If we are debugging, then also output some debugging data.
 			 */
-			if( $this->is_debug() ) {
+			if ( $this->is_debug() ) {
 				$this->output_comment( $this->get_cache_debug_comment( $start, $end ) );
 			}
 
@@ -152,7 +174,7 @@ abstract class WP_Fragment_Cache {
 			$this->set_cache_data( $contents, $conditions );
 		}
 
-		if( true === $also_output ) {
+		if ( true === $render ) {
 			print( $contents );
 		}
 
@@ -180,7 +202,7 @@ abstract class WP_Fragment_Cache {
 	/**
 	 * Use the class slug to define hooks dynamically.
 	 *
-	 * @param $name
+	 * @param string $name The hook name.
 	 *
 	 * @return string
 	 */
