@@ -18,12 +18,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @todo rename files to use class- prefix.
+ *
+ * @package   Mindsize/WP_Fragment_Cache
+ * @author    Mindsize
+ * @copyright Copyright (c) 2017-2021, Mindsize, LLC.
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  */
 
 /**
  * Load the autoload file distributed with the plugin version of this library.
  * For sites not driven by composer.
  */
-if( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php' ) ) {
-	require( plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php' );
+if ( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php' ) ) {
+	require plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php';
 }

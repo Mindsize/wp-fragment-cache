@@ -2,14 +2,7 @@
 /**
  * WP Fragment Cache Framework
  *
- * This source file is subject to the GNU General Public License v3.0
- * that is bundled with this package in the file license.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.gnu.org/licenses/gpl-2.0.html
- *
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to info@mindsize.me so we can send you a copy immediately.
+ * @todo documentation on how to use "conditions" array.
  *
  * @package   Mindsize/WP_Fragment_Cache
  * @author    Mindsize
@@ -21,9 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * If the class already exists, no need to redeclare it.
- */
 if ( class_exists( 'WP_Fragment_Cache' ) ) {
 	return;
 }
@@ -45,9 +35,8 @@ abstract class WP_Fragment_Cache {
 	/**
 	 * Abstracted method for classes to override and store their data.
 	 *
-	 * @param $output
-	 *
-	 * @param $conditions
+	 * @param string $output     Output string.
+	 * @param array  $conditions Array of conditions.
 	 *
 	 * @return bool
 	 */
@@ -56,7 +45,7 @@ abstract class WP_Fragment_Cache {
 	/**
 	 * Abstracted method for classes to override and get their data.
 	 *
-	 * @param array $conditions
+	 * @param array $conditions Array of conditions.
 	 *
 	 * @return bool
 	 */
@@ -87,8 +76,7 @@ abstract class WP_Fragment_Cache {
 	 * Debug comment string for the cached data.
 	 *
 	 * @param int $start The start time in UNIX format.
-	 *
-	 * @param int $end The end time in UNIX format.
+	 * @param int $end   The end time in UNIX format.
 	 *
 	 * @return string
 	 */
@@ -99,7 +87,7 @@ abstract class WP_Fragment_Cache {
 	/**
 	 * Output a HTML comment, if the comment is empty, no output is rendered.
 	 *
-	 * @todo Use wp_kses_allowed_html
+	 * @todo Use wp_kses_allowed_html or similar.
 	 *
 	 * @param string $comment The code Comment.
 	 */
@@ -119,12 +107,12 @@ abstract class WP_Fragment_Cache {
 	 * @todo Should this both render and return $contents?
 	 *
 	 * @todo Rendering the content must have some kind of escaping.
-	 *       Dangerous input will be presented to multiple users as the cached content is viewed.
+	 *       Dangerous input will be served to multiple users as the cached content is presented.
 	 *
-	 * @param string|array $callback    Callable callback function/method.
-	 * @param array        $conditions
-	 * @param bool         $render      Optional. Render the cached HTML.  Defaults to true.
-	 * @param bool         $refresh     Optional. Refresh the cache.  Defaults to false.
+	 * @param string|array $callback   Callable callback function/method.
+	 * @param array        $conditions Array of Conditions.
+	 * @param bool         $render     Optional. Render the cached HTML.  Defaults to true.
+	 * @param bool         $refresh    Optional. Refresh the cache.  Defaults to false.
 	 *
 	 * @return mixed The cached content, else false.
 	 */
