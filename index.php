@@ -18,8 +18,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @todo rename files to use class- prefix.
+ * @todo rename this file to the plugin name.
  *
  * @package   Mindsize/WP_Fragment_Cache
  * @author    Mindsize

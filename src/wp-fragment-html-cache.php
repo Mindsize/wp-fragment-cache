@@ -45,7 +45,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	}
 
 	/**
-	 * Store cached data into HTML file.
+	 * Write cached data into an HTML file.
 	 *
 	 * @param string $output     Input to be stored (assumed HTML).
 	 * @param array  $conditions Array of conditions.
@@ -103,7 +103,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 			$this
 		);
 
-		// @todo need further validation, such as file_exists().
+		// @todo Need further validation, such as file_exists().
 		if ( empty( $file_path ) || ! is_string( $file_path ) ) {
 			return '';
 		}
@@ -124,7 +124,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	/**
 	 * Get the path to the cache directory, plus any potentially added URI.
 	 *
-	 * @param string $append  Optional. String to append to the cache path.
+	 * @param string $append Optional. String to append to the cache path.
 	 *
 	 * @return string
 	 */
@@ -145,7 +145,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	/**
 	 * Ensures the cache directory exists, and that the cache is clean.
 	 *
-	 * @param string $append  Optional. String to append to the cache path.
+	 * @param string $append Optional. String to append to the cache path.
 	 */
 	public function clear_cache( $append = null ) {
 		$path = $this->get_cache_path( $append );
