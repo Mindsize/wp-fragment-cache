@@ -2,9 +2,12 @@
 /**
  * Plugin Name: Mindsize - WP Fragment Cache
  * Description: Not intended to be used as a normal plugin, requires developer integration. Abstraction of fragment caching methods for developers to use and integration into WordPress plugins and themes.
- * Version: 1.1.0
- * Author: Mindsize
- * Author URI: http://mindsize.me/
+ * Version:     1.1.0
+ * Author:      Mindsize
+ * Author URI:  http://mindsize.me/
+ * License:     GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: ms-wp-fragment-cache
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -82,6 +82,7 @@ abstract class WP_Fragment_Cache {
 	 * @return string
 	 */
 	protected function get_cache_debug_comment( $start, $end ) {
+		// translators: The number of seconds elapsed.
 		return sprintf( __( 'Took %f seconds to store cached content.', 'ms-wp-fragment-cache' ), $end - $start );
 	}
 

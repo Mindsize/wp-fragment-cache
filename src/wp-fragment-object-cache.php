@@ -2,9 +2,9 @@
 /**
  * WP Fragment Cache Framework - Object Cache
  *
- * @package   Mindsize/WP_Fragment_Cache
- * @author    Mindsize
- * @since     1.1.0
+ * @package Mindsize/WP_Fragment_Cache
+ * @author  Mindsize
+ * @since   1.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -45,7 +45,7 @@ abstract class WP_Fragment_Object_Cache extends WP_Fragment_Cache {
 	protected function set_cache_data( $output, $conditions ) {
 		$key = $this->get_key( $conditions );
 
-		$expires = isset( $conditions[ 'expires' ] ) && ! empty( $conditions[ 'expires' ] ) ? absint( $conditions[ 'expires' ] ) : $this->default_expires;
+		$expires = isset( $conditions['expires'] ) && ! empty( $conditions['expires'] ) ? absint( $conditions['expires'] ) : $this->default_expires;
 
 		return wp_cache_set( $key, $output, $this->group, $expires );
 	}
@@ -77,6 +77,6 @@ abstract class WP_Fragment_Object_Cache extends WP_Fragment_Cache {
 	protected function get_key( $conditions ) {
 		array_multisort( $conditions );
 
-		return md5( json_encode( $conditions ) );
+		return md5( wp_json_encode( $conditions ) );
 	}
 }

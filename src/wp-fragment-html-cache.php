@@ -2,9 +2,9 @@
 /**
  * WP Fragment Cache Framework - HTML Cache
  *
- * @package   Mindsize/WP_Fragment_Cache
- * @author    Mindsize
- * @since     1.1.0
+ * @package Mindsize/WP_Fragment_Cache
+ * @author  Mindsize
+ * @since   1.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -76,7 +76,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	 *
 	 * @param array $conditions Array of conditions.
 	 *
-	 * @return string The file path.
+	 * @return string The file path, else empty string.
 	 */
 	public function get_cache_file_path( $conditions ) {
 		/**
@@ -94,13 +94,15 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 
 		$file_base = apply_filters( $this->get_hook_name( 'file_base' ), trailingslashit( $this->get_cache_path() ), $file_conditions, $this );
 		$file_name = apply_filters( $this->get_hook_name( 'file_name' ), md5( json_encode( $file_conditions ) ), $file_conditions, $this );
-		$file_path = apply_filters(
+		$file_path = apply_filters_ref_array(
 			$this->get_hook_name( 'file_path' ),
-			trailingslashit( $file_base ) . $file_name . '.html',
-			$file_base,
-			$file_name,
-			$file_conditions,
-			$this
+			array(
+				trailingslashit( $file_base ) . $file_name . '.html',
+				$file_base,
+				$file_name,
+				$file_conditions,
+				$this,
+			)
 		);
 
 		// @todo Need further validation, such as file_exists().
