@@ -39,14 +39,19 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	public function get_cache_data( $conditions ) {
 		$file = $this->get_cache_file_path( $conditions );
 
-		return file_exists( $file ) ? wp_remote_get( $file ) : false;
+		if ( file_exists( $file ) ) {
+			$data = wp_remote_get( $file );
+			if ( ! is_wp_error( $data ) ) {
+				return $data;
+			}
+		}
+		return false;
 	}
 
 	/**
 	 * Write cached data into an HTML file.
 	 *
 	 * @todo need to do more to validate $cache_file.
-	 * @todo use WP_Filesystem methods.
 	 *
 	 * @param string $output     Input to be stored (assumed HTML).
 	 * @param array  $conditions Array of conditions.
@@ -61,11 +66,13 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 
 		$this->ensure_directory_exists( dirname( $file ) );
 
-		$cache_file = @fopen( $file, 'w' );
+		// phpcs:disable WordPress.WP.AlternativeFunctions
+		$cache_file = fopen( $file, 'w' );
 		if ( $cache_file ) {
 			$bytes  = fwrite( $cache_file, $output );
 			$closed = fclose( $cache_file );
 		}
+		// phpcs:enable
 
 		return ( 0 < $bytes ) && ( true === $closed );
 	}
