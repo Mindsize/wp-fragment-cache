@@ -32,8 +32,6 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	/**
 	 * Get cached data from HTML file and return as a string.
 	 *
-	 * @todo consider using wp_remote_get().
-	 *
 	 * @param array $conditions Array of conditions.
 	 *
 	 * @return string|bool
@@ -41,7 +39,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	public function get_cache_data( $conditions ) {
 		$file = $this->get_cache_file_path( $conditions );
 
-		return file_exists( $file ) ? file_get_contents( $file ) : false;
+		return file_exists( $file ) ? wp_remote_get( $file ) : false;
 	}
 
 	/**

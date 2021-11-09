@@ -10,7 +10,7 @@ This is an abstraction of fragment caching methods for developers to use for int
 
 ## Usage
 
-How to implement.
+Provide documentation on `$conditions` array usage.  Note that the Object Cache class looks for an optional "expire" value.
 
 ## Examples
 

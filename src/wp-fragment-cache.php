@@ -2,10 +2,6 @@
 /**
  * WP Fragment Cache Framework
  *
- * @todo documentation on how to use "conditions" array.
- *       Keys:
- *       'expires' (used for object cache)
- *
  * @package   Mindsize/WP_Fragment_Cache
  * @author    Mindsize
  * @copyright Copyright (c) 2017-2021, Mindsize, LLC.
