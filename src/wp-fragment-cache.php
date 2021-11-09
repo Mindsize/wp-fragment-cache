@@ -110,7 +110,7 @@ abstract class WP_Fragment_Cache {
 	 *
 	 * @return mixed The cached content, else false.
 	 */
-	public function do( $callback, $conditions = array(), $render = true, $refresh = false ) {
+	public function do( $callback, $conditions = [], $render = true, $refresh = false ) {
 
 		// If the callback passed is not callable, just bail here and false and a notice.
 		if ( ! is_callable( $callback ) && $this->is_debug() ) {

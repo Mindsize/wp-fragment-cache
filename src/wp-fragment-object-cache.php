@@ -40,7 +40,12 @@ abstract class WP_Fragment_Object_Cache extends WP_Fragment_Cache {
 	protected $default_expires = MONTH_IN_SECONDS;
 
 	/**
-	 * @inheritdoc
+	 * Set the cache data.
+	 *
+	 * @param string $output The output.
+	 * @param array  $conditions The conditions array.
+	 *
+	 * @return bool If the operation was successful.
 	 */
 	protected function set_cache_data( $output, $conditions ) {
 		$key = $this->get_key( $conditions );
@@ -51,7 +56,11 @@ abstract class WP_Fragment_Object_Cache extends WP_Fragment_Cache {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Get the cached data.
+	 *
+	 * @param array $conditions Array of Conditions.
+	 *
+	 * @return string The cache.
 	 */
 	protected function get_cache_data( $conditions ) {
 		$key = $this->get_key( $conditions );
@@ -59,7 +68,7 @@ abstract class WP_Fragment_Object_Cache extends WP_Fragment_Cache {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Clear the cache.
 	 */
 	public function clear_cache() {
 		if ( function_exists( 'wp_cache_delete_group' ) ) {

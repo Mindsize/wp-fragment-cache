@@ -191,7 +191,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 			return;
 		}
 
-		$files = array_diff( $file_array, array( '.', '..' ) );
+		$files = array_diff( $file_array, [ '.', '..' ] );
 
 		foreach ( $file_array as $file ) {
 			$object = wp_normalize_path( trailingslashit( $dir ) . $file );
