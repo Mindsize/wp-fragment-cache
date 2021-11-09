@@ -103,15 +103,13 @@ abstract class WP_Fragment_Cache {
 	 * Actually cache the output of the passed callback, optionally outputting the result also. Allows for passing
 	 * arguments for conditional caching.
 	 *
-	 * @todo Should this both render and return $contents simultaneously?
-	 *
 	 * @todo Rendering the content must have some kind of escaping.
 	 *       Dangerous input will be served to multiple users as the cached content is presented.
 	 * @link https://portswigger.net/web-security/web-cache-poisoning
 	 *
 	 * @param string|array $callback   Callable callback function/method.
-	 * @param array        $conditions Array of Conditions.
-	 * @param bool         $render     Optional. Render the cached HTML.  Defaults to true.
+	 * @param array        $conditions Optional. Array of Conditions.
+	 * @param bool         $render     Optional. Render the cached HTML in addition to returning. Defaults to true.
 	 * @param bool         $refresh    Optional. Refresh the cache.  Defaults to false.
 	 *
 	 * @return mixed The cached content, else false.
@@ -154,6 +152,7 @@ abstract class WP_Fragment_Cache {
 			$this->set_cache_data( $contents, $conditions );
 		}
 
+		// Allow optional rendering after caching.
 		if ( true === $render ) {
 			print( $contents );
 		}
