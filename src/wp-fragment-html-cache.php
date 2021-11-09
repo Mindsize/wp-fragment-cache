@@ -51,8 +51,6 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	/**
 	 * Write cached data into an HTML file.
 	 *
-	 * @todo need to do more to validate $cache_file.
-	 *
 	 * @param string $output     Input to be stored (assumed HTML).
 	 * @param array  $conditions Array of conditions.
 	 *
@@ -68,7 +66,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 
 		// phpcs:disable WordPress.WP.AlternativeFunctions
 		$cache_file = fopen( $file, 'w' );
-		if ( $cache_file ) {
+		if ( false !== $cache_file ) {
 			$bytes  = fwrite( $cache_file, $output );
 			$closed = fclose( $cache_file );
 		}
@@ -79,8 +77,6 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 
 	/**
 	 * Fetch the path of the cache file.
-	 *
-	 * @todo file_path needs further validation, such as file_exists().
 	 *
 	 * @param array $conditions Array of conditions.
 	 *

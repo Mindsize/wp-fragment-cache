@@ -82,8 +82,6 @@ abstract class WP_Fragment_Cache {
 	/**
 	 * Output a HTML comment, if the comment is empty, no output is rendered.
 	 *
-	 * @todo Use wp_kses_allowed_html or similar.
-	 *
 	 * @param string $comment The code Comment.
 	 */
 	protected function output_comment( $comment ) {
@@ -99,8 +97,9 @@ abstract class WP_Fragment_Cache {
 	 * Actually cache the output of the passed callback, optionally outputting the result also. Allows for passing
 	 * arguments for conditional caching.
 	 *
-	 * @todo Rendering the content must have some kind of escaping.
+	 * Note: Rendering the content must have some kind of escaping.
 	 *       Dangerous input will be served to multiple users as the cached content is presented.
+	 *
 	 * @link https://portswigger.net/web-security/web-cache-poisoning
 	 *
 	 * @param string|array $callback   Callable callback function/method.
