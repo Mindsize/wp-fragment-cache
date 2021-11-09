@@ -70,13 +70,14 @@ abstract class WP_Fragment_Object_Cache extends WP_Fragment_Cache {
 	/**
 	 * Get the cache key.
 	 *
+	 * @todo Is array_multisort necessary here?
+	 *
 	 * @param array $conditions Array of conditions.
 	 *
 	 * @return string Encoded cache key string.
 	 */
 	protected function get_key( $conditions ) {
 		array_multisort( $conditions );
-
 		return md5( wp_json_encode( $conditions ) );
 	}
 }

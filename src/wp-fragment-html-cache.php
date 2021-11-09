@@ -47,6 +47,9 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	/**
 	 * Write cached data into an HTML file.
 	 *
+	 * @todo need to do more to validate $cache_file.
+	 * @todo use WP_Filesystem methods.
+	 *
 	 * @param string $output     Input to be stored (assumed HTML).
 	 * @param array  $conditions Array of conditions.
 	 *
@@ -60,8 +63,6 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 
 		$this->ensure_directory_exists( dirname( $file ) );
 
-		// @todo need to do more to validate $cache_file.
-		// @todo use WP_Filesystem methods.
 		$cache_file = @fopen( $file, 'w' );
 		if ( $cache_file ) {
 			$bytes  = fwrite( $cache_file, $output );
@@ -73,6 +74,8 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 
 	/**
 	 * Fetch the path of the cache file.
+	 *
+	 * @todo file_path needs further validation, such as file_exists().
 	 *
 	 * @param array $conditions Array of conditions.
 	 *
@@ -87,13 +90,13 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 		$file_conditions = apply_filters( $this->get_hook_name( 'file_conditions' ), (array) $conditions, $this );
 
 		/**
-		 * Sort the args in the array so that if two arrays have identical values but just were just out of order
-		 * it doesn't mean we need to store separate caches. This reduces the total size of the cache dir.
+		 * Sort the args in the array so that if two arrays have identical values but were just out of order
+		 * we don't need to store separate caches. This reduces the total size of the cache dir.
 		 */
 		array_multisort( $file_conditions );
 
 		$file_base = apply_filters( $this->get_hook_name( 'file_base' ), trailingslashit( $this->get_cache_path() ), $file_conditions, $this );
-		$file_name = apply_filters( $this->get_hook_name( 'file_name' ), md5( json_encode( $file_conditions ) ), $file_conditions, $this );
+		$file_name = apply_filters( $this->get_hook_name( 'file_name' ), md5( wp_json_encode( $file_conditions ) ), $file_conditions, $this );
 		$file_path = apply_filters(
 			$this->get_hook_name( 'file_path' ),
 			trailingslashit( $file_base ) . $file_name . '.html',
@@ -103,7 +106,6 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 			$this
 		);
 
-		// @todo Need further validation, such as file_exists().
 		if ( empty( $file_path ) || ! is_string( $file_path ) ) {
 			return '';
 		}
@@ -112,8 +114,9 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	}
 
 	/**
-	 * Get the name of the directory for the cache. sanitize_title is run outside of the filter, all contents will be
-	 * sanitized.
+	 * Get the name of the directory for the cache.
+	 *
+	 * This string will be sanitized by sanitize_title.
 	 *
 	 * @return string
 	 */
@@ -154,7 +157,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	}
 
 	/**
-	 * Ensure that the HTML cache directory exists, and create it if it does not.
+	 * Ensure that the HTML cache directory exists. If not, create it.
 	 *
 	 * @param string $path Optional. The cache path.
 	 */
@@ -177,7 +180,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 			return;
 		}
 
-		// Func scandir can return false.
+		// Function scandir can return false.
 		$file_array = scandir( $dir );
 		if ( empty( $file_array ) || ! is_array( $file_array ) ) {
 			return;

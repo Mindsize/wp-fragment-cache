@@ -38,8 +38,6 @@ abstract class WP_Fragment_Cache {
 	 *
 	 * @param string $output     Output string.
 	 * @param array  $conditions Array of conditions.
-	 *
-	 * @return bool
 	 */
 	abstract protected function set_cache_data( $output, $conditions );
 
@@ -47,8 +45,6 @@ abstract class WP_Fragment_Cache {
 	 * Abstracted method for classes to override and get their data.
 	 *
 	 * @param array $conditions Array of conditions.
-	 *
-	 * @return bool
 	 */
 	abstract protected function get_cache_data( $conditions );
 
@@ -58,23 +54,23 @@ abstract class WP_Fragment_Cache {
 	abstract public function clear_cache();
 
 	/**
-	 * Opening comment before cached content is output.
-	 * Is stored within the cached content and is not generated on every load.
+	 * Get the opening comment before cached content is output.
+	 * This is stored within the cached content and is not generated on every load.
 	 */
 	protected function get_cache_start_comment() {
 		return null;
 	}
 
 	/**
-	 * Closing comment before cached content is output.
-	 * Is stored within the cached content and is not generated on every load.
+	 * Get the closing comment before cached content is output.
+	 * This is stored within the cached content and is not generated on every load.
 	 */
 	protected function get_cache_close_comment() {
 		return null;
 	}
 
 	/**
-	 * Debug comment string for the cached data.
+	 * Get the debug comment string for the cached data.
 	 *
 	 * @param int $start The start time in UNIX format.
 	 * @param int $end   The end time in UNIX format.
@@ -119,42 +115,34 @@ abstract class WP_Fragment_Cache {
 	 * @return mixed The cached content, else false.
 	 */
 	public function do( $callback, $conditions = array(), $render = true, $refresh = false ) {
-		/**
-		 * If the callback passed is not callable, just bail here and false and a notice.
-		 */
-		if ( ! is_callable( $callback ) ) {
-			trigger_error( esc_html_e( 'Unable to call required callback function.', 'ms-wp-fragment-cache' ) );
 
+		// If the callback passed is not callable, just bail here and false and a notice.
+		if ( ! is_callable( $callback ) && $this->is_debug() ) {
+			// Ignore PHPCS as "is_debug" is verified.
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions
+			trigger_error( esc_html_e( 'Unable to call required callback function.', 'ms-wp-fragment-cache' ) );
+			// phpcs:enable
 			return false;
 		}
 
 		$contents = $this->get_cache_data( $conditions );
+
 		if ( true === $refresh || false === $contents ) {
-			/**
-			 * Start saving all output into a buffer for capture later.
-			 */
+			// Start saving all output into a buffer for capture later.
 			ob_start();
 
-			/**
-			 * Output the starting HTML comment.
-			 */
+			// Output the starting HTML comment.
 			$this->output_comment( $this->get_cache_start_comment() );
 
-			/**
-			 * Call the callback, pass the conditions to the callback as well.
-			 */
+			// Call the callback, pass the conditions to the callback as well.
 			$start = microtime( true );
 			call_user_func_array( $callback, $conditions );
 			$end = microtime( true );
 
-			/**
-			 * Output the closing HTML comment.
-			 */
+			// Output the closing HTML comment.
 			$this->output_comment( $this->get_cache_close_comment() );
 
-			/**
-			 * If we are debugging, then also output some debugging data.
-			 */
+			// If we are debugging, then also output some debugging data.
 			if ( $this->is_debug() ) {
 				$this->output_comment( $this->get_cache_debug_comment( $start, $end ) );
 			}
@@ -172,7 +160,7 @@ abstract class WP_Fragment_Cache {
 	}
 
 	/**
-	 * Get the slug of the class
+	 * Get the class slug.
 	 *
 	 * @return string
 	 */
