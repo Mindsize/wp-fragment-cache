@@ -94,15 +94,13 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 
 		$file_base = apply_filters( $this->get_hook_name( 'file_base' ), trailingslashit( $this->get_cache_path() ), $file_conditions, $this );
 		$file_name = apply_filters( $this->get_hook_name( 'file_name' ), md5( json_encode( $file_conditions ) ), $file_conditions, $this );
-		$file_path = apply_filters_ref_array(
+		$file_path = apply_filters(
 			$this->get_hook_name( 'file_path' ),
-			array(
-				trailingslashit( $file_base ) . $file_name . '.html',
-				$file_base,
-				$file_name,
-				$file_conditions,
-				$this,
-			)
+			trailingslashit( $file_base ) . $file_name . '.html',
+			$file_base,
+			$file_name,
+			$file_conditions,
+			$this
 		);
 
 		// @todo Need further validation, such as file_exists().
