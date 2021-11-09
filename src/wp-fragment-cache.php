@@ -73,14 +73,14 @@ abstract class WP_Fragment_Cache {
 	/**
 	 * Get the debug comment string for the cached data.
 	 *
-	 * @param int $start The start time in UNIX format.
-	 * @param int $end   The end time in UNIX format.
+	 * @param float $start The start time in UNIX format.
+	 * @param float $end   The end time in UNIX format.
 	 *
 	 * @return string
 	 */
 	protected function get_cache_debug_comment( $start, $end ) {
 		// translators: The number of seconds elapsed.
-		return sprintf( __( 'Took %f seconds to store cached content.', 'ms-wp-fragment-cache' ), $end - $start );
+		return sprintf( __( 'Took %f seconds to store cached content.', 'ms-wp-fragment-cache' ), floatval( $end ) - floatval( $start ) );
 	}
 
 	/**
@@ -103,10 +103,11 @@ abstract class WP_Fragment_Cache {
 	 * Actually cache the output of the passed callback, optionally outputting the result also. Allows for passing
 	 * arguments for conditional caching.
 	 *
-	 * @todo Should this both render and return $contents?
+	 * @todo Should this both render and return $contents simultaneously?
 	 *
 	 * @todo Rendering the content must have some kind of escaping.
 	 *       Dangerous input will be served to multiple users as the cached content is presented.
+	 * @link https://portswigger.net/web-security/web-cache-poisoning
 	 *
 	 * @param string|array $callback   Callable callback function/method.
 	 * @param array        $conditions Array of Conditions.
