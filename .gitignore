@@ -1,0 +1,4 @@
+vendor
+
+# VS Code
+*.code-workspace
