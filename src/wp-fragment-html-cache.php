@@ -85,7 +85,6 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	public function get_cache_file_path( $conditions ) {
 		/**
 		 * HTML file name will be generated based on passed conditions. Allow for customizing these conditions further.
-		 *
 		 * This will create a new args array which will create a separate version of the cached fragment.
 		 */
 		$file_conditions = apply_filters( $this->get_hook_name( 'file_conditions' ), (array) $conditions, $this );
