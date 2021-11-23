@@ -24,26 +24,17 @@
       "email": "gabor@mindsize.me",
       "homepage": "http://mindsize.me",
       "role": "Developer"
+    },
+    {
+      "name": "John Regan",
+      "email": "john.regan@mindsize.com",
+      "homepage": "http://mindsize.com",
+      "role": "Developer"
     }
   ],
   "license": "GPL-2.0",
   "autoload": {
-    "classmap": [
-      "src"
-    ]
+    "classmap": ["src"]
   },
-  "require": {
-    "xrstf/composer-php52": "^1.0"
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "xrstf\\Composer52\\Generator::onPostInstallCmd"
-    ],
-    "post-update-cmd": [
-      "xrstf\\Composer52\\Generator::onPostInstallCmd"
-    ],
-    "post-autoload-dump": [
-      "xrstf\\Composer52\\Generator::onPostInstallCmd"
-    ]
-  }
+  "require": {}
 }

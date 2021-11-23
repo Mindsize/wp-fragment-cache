@@ -139,8 +139,10 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 			)
 		);
 
-		// Add any extra path that was passed.
-		$path .= $append;
+		if ( is_string( $append ) ) {
+			// Add any extra path that was passed.
+			$path .= $append;
+		}
 
 		return trailingslashit( $path );
 	}

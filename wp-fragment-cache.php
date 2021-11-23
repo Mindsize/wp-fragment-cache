@@ -28,10 +28,8 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  */
 
-/**
- * Load the autoload file distributed with the plugin version of this library.
- * For sites not driven by composer.
- */
-if ( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php' ) ) {
-	require plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php';
+$ms_autoloader = dirname( __FILE__ ) . '/vendor/autoload.php';
+
+if ( file_exists( $ms_autoloader ) ) {
+	require_once $ms_autoloader;
 }
