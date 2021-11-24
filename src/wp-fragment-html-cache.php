@@ -39,13 +39,7 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 	public function get_cache_data( $conditions ) {
 		$file = $this->get_cache_file_path( $conditions );
 
-		if ( file_exists( $file ) ) {
-			$data = wp_remote_get( $file );
-			if ( ! is_wp_error( $data ) ) {
-				return $data;
-			}
-		}
-		return false;
+		return file_exists( $file ) ? file_get_contents( $file ) : false;
 	}
 
 	/**
@@ -182,15 +176,15 @@ abstract class WP_Fragment_HTML_Cache extends WP_Fragment_Cache {
 			return;
 		}
 
-		// Function scandir can return false.
-		$file_array = scandir( $dir );
-		if ( empty( $file_array ) || ! is_array( $file_array ) ) {
-			return;
-		}
-
-		$files = array_diff( $file_array, [ '.', '..' ] );
-
-		foreach ( $file_array as $file ) {
+		foreach (
+			array_diff(
+				scandir( $dir ),
+				[
+					'.',
+					'..',
+				]
+			) as $file
+		) {
 			$object = wp_normalize_path( trailingslashit( $dir ) . $file );
 
 			if ( is_dir( $object ) ) {
