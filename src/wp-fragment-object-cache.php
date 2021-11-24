@@ -69,6 +69,11 @@ abstract class WP_Fragment_Object_Cache extends WP_Fragment_Cache {
 
 	/**
 	 * Clear the cache.
+	 *
+	 * The return value can be used to determine if
+	 * the cache was already empty.
+	 *
+	 * @return bool If the cache group was found.
 	 */
 	public function clear_cache() {
 		global $wp_object_cache;
@@ -79,7 +84,10 @@ abstract class WP_Fragment_Object_Cache extends WP_Fragment_Cache {
 			unset( $cache[ $this->group ] );
 
 			$wp_object_cache->cache = $cache;
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
