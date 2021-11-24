@@ -71,8 +71,14 @@ abstract class WP_Fragment_Object_Cache extends WP_Fragment_Cache {
 	 * Clear the cache.
 	 */
 	public function clear_cache() {
-		if ( function_exists( 'wp_cache_delete_group' ) ) {
-			wp_cache_delete_group( $this->group );
+		global $wp_object_cache;
+
+		$cache = $wp_object_cache->cache;
+
+		if ( isset( $cache[ $this->group ] ) ) {
+			unset( $cache[ $this->group ] );
+
+			$wp_object_cache->cache = $cache;
 		}
 	}
 
