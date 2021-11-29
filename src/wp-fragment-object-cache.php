@@ -1,29 +1,17 @@
 <?php
 /**
- * WP Fragment Cache Framework
+ * WP Fragment Cache Framework - Object Cache
  *
- * This source file is subject to the GNU General Public License v3.0
- * that is bundled with this package in the file license.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.gnu.org/licenses/gpl-2.0.html
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to info@mindsize.me so we can send you a copy immediately.
- *
- * @package   Mindsize/WP_Fragment_Cache
- * @author    Mindsize
- * @copyright Copyright (c) 2017, Mindsize, LLC.
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
+ * @package Mindsize/WP_Fragment_Cache
+ * @author  Mindsize
+ * @since   1.1.0
  */
 
-if( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * If the class already exists, no need to redeclare it.
- */
-if( class_exists( 'WP_Fragment_Object_Cache' ) ) {
+if ( class_exists( 'WP_Fragment_Object_Cache' ) ) {
 	return;
 }
 
@@ -37,54 +25,81 @@ if( class_exists( 'WP_Fragment_Object_Cache' ) ) {
  */
 abstract class WP_Fragment_Object_Cache extends WP_Fragment_Cache {
 
+	/**
+	 * Cache group name.
+	 *
+	 * @var string
+	 */
 	protected $group = 'wp-fragment-object-cache';
 
+	/**
+	 * Default expiration time, in seconds.
+	 *
+	 * @var int
+	 */
 	protected $default_expires = MONTH_IN_SECONDS;
 
 	/**
-	 * Abstracted method for classes to override and store their data.
+	 * Set the cache data.
 	 *
-	 * @param $data
+	 * @param string $output The output.
+	 * @param array  $conditions The conditions array.
 	 *
-	 * @return bool
+	 * @return bool If the operation was successful.
 	 */
 	protected function set_cache_data( $output, $conditions ) {
 		$key = $this->get_key( $conditions );
 
-		$expires = isset( $conditions[ 'expires' ] ) && ! empty( $conditions[ 'expires' ] ) ? absint( $conditions[ 'expires' ] ) : $this->default_expires;
+		$expires = isset( $conditions['expires'] ) && ! empty( $conditions['expires'] ) ? absint( $conditions['expires'] ) : $this->default_expires;
 
 		return wp_cache_set( $key, $output, $this->group, $expires );
 	}
 
 	/**
-	 * Abstracted method for classes to override and get their data.
+	 * Get the cached data.
 	 *
-	 * @param $data
+	 * @param array $conditions Array of Conditions.
 	 *
-	 * @return bool
+	 * @return string The cache.
 	 */
 	protected function get_cache_data( $conditions ) {
 		$key = $this->get_key( $conditions );
-
 		return wp_cache_get( $key, $this->group );
 	}
 
 	/**
-	 * Abstracted method for classes to override and clear their cache
+	 * Clear the cache.
 	 *
-	 * @param $data
+	 * The return value can be used to determine if
+	 * the cache was already empty.
 	 *
-	 * @return bool
+	 * @return bool If the cache group was found.
 	 */
 	public function clear_cache() {
-		if( function_exists( 'wp_cache_delete_group' ) ) {
-			wp_cache_delete_group( $this->group );
+		global $wp_object_cache;
+
+		$cache = $wp_object_cache->cache;
+
+		if ( isset( $cache[ $this->group ] ) ) {
+			unset( $cache[ $this->group ] );
+
+			$wp_object_cache->cache = $cache;
+			return true;
 		}
+
+		return false;
 	}
 
+	/**
+	 * Get the cache key.
+	 *
+	 * @param array $conditions Array of conditions.
+	 *
+	 * @return string Encoded cache key string.
+	 */
 	protected function get_key( $conditions ) {
+		// Sort array to ensure misordered but otherwise identical conditions aren't saved separately.
 		array_multisort( $conditions );
-
-		return md5( json_encode( $conditions ) );
+		return md5( wp_json_encode( $conditions ) );
 	}
 }

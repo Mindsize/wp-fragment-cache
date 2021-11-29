@@ -2,9 +2,12 @@
 /**
  * Plugin Name: Mindsize - WP Fragment Cache
  * Description: Not intended to be used as a normal plugin, requires developer integration. Abstraction of fragment caching methods for developers to use and integration into WordPress plugins and themes.
- * Version: 1.1.0
- * Author: Mindsize
- * Author URI: http://mindsize.me/
+ * Version:     1.1.0
+ * Author:      Mindsize
+ * Author URI:  http://mindsize.me/
+ * License:     GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: ms-wp-fragment-cache
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,12 +21,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package   Mindsize/WP_Fragment_Cache
+ * @author    Mindsize
+ * @copyright Copyright (c) 2017-2021, Mindsize, LLC.
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
  */
 
-/**
- * Load the autoload file distributed with the plugin version of this library.
- * For sites not driven by composer.
- */
-if( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php' ) ) {
-	require( plugin_dir_path( __FILE__ ) . 'vendor/autoload_52.php' );
+$ms_autoloader = dirname( __FILE__ ) . '/vendor/autoload.php';
+
+if ( file_exists( $ms_autoloader ) ) {
+	require_once $ms_autoloader;
 }
